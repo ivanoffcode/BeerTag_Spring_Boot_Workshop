@@ -1,0 +1,150 @@
+header {
+    text-align: right;
+    padding: 10px 50px 10px 44px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.header-image {
+    float: left;
+    margin-left: -30px;
+    margin-top: -20px;
+    width: 100px;
+    height: 60px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 50px 10px 50px;
+    border-top: 1px solid #dee2e6;
+}
+
+a {
+    color: #007bff;
+}
+
+body {
+    background-color: #ffbf00;
+}
+
+.body-content {
+    text-align: center;
+    padding: 10px 50px 50px 50px;
+}
+
+.centered-icon {
+    display: block;
+    margin: 0 auto;
+    width: auto;
+    height: auto;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px auto;
+    font-size: 16px;
+    text-align: left;
+}
+
+.styled-table th, .styled-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+.styled-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.styled-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.styled-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.beerIcon > img {
+    width: 50px;
+    height: 50px;
+}
+
+.header {
+    display: table-header-group;
+    font-weight: bold;
+}
+
+.header-cell {
+    display: table-cell;
+    width: 20%;
+    padding: 12px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.rowGroup {
+    display: table-row-group;
+}
+
+.row {
+    display: table-row;
+}
+
+.cell {
+    display: table-cell;
+    width: 20%;
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.margin12 {
+    margin: 12px 0px 12px 0px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-input {
+    margin: 12px 0px 12px 0px;
+    width: 200px;
+    height: 25px;
+}
+
+.form-error {
+    color: #dc3545;
+}
+
+.btn-primary {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    margin: 12px 6px 12px 0px;
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    height: 30px;
+}
+
+button:hover {
+    background-color: yellow;
+    color: black;
+}
+
+a.nav {
+    margin: 6px 6px 6px 6px;
+}
+
+.error {
+    color: red
+}

@@ -1,7 +1,5 @@
 package com.example.beertag.services;
 
-
-import ch.qos.logback.core.testUtil.MockInitialContext;
 import com.example.beertag.entities.Beer;
 import com.example.beertag.entities.User;
 import com.example.beertag.entities.filter.FilterOptions;
@@ -117,7 +115,6 @@ public class BeerServiceTests {
 
     }
 
-
     @Test
     public void update_Should_CallRepository_When_BeerWithSameNameDoesntExist() {
 
@@ -137,7 +134,6 @@ public class BeerServiceTests {
                 .update(Mockito.eq(mockBeer));
 
     }
-
 
     @Test
     public void update_Should_Throw_When_UserIsNotCreatorOrAdmin() {
@@ -167,8 +163,6 @@ public class BeerServiceTests {
 
     }
 
-
-    //ToDo
     @Test
     public void update_ShouldNotThrowExc_When_IdMatches() {
         // Arrange

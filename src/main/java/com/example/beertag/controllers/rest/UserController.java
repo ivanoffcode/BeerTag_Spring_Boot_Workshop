@@ -1,12 +1,10 @@
-package com.example.beertag.controllers;
+package com.example.beertag.controllers.rest;
 
 import com.example.beertag.entities.Beer;
 import com.example.beertag.entities.User;
-import com.example.beertag.exceptions.DuplicateEntityException;
 import com.example.beertag.exceptions.EntityNotFoundException;
 import com.example.beertag.exceptions.UnauthorizedOperationException;
 import com.example.beertag.helpers.AuthenticationHelper;
-import com.example.beertag.mappers.BeerMapper;
 import com.example.beertag.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 import static com.example.beertag.Helpers.*;
-import static com.example.beertag.controllers.BeerController.BEER_NAME_NOT_FOUND;
+import static com.example.beertag.controllers.rest.BeerController.BEER_NAME_NOT_FOUND;
 
 @SpringBootTest
 @AutoConfigureMockMvc

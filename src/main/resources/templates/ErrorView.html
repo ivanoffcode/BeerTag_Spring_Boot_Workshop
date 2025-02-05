@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Entity Not Found</title>
+    <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<header>
+    <div>
+        <img src="../static/images/logo.png" alt="BeerTag Logo" class="header-image" th:src="@{/images/logo.png}">
+        <h3>
+            <a href="./HomeView.html" th:href="@{/}">Home</a>
+            | <a href="./BeersView.html" th:href="@{/beers}">Beers</a>
+            | <a href="./AboutView.html" th:href="@{/about}">About</a>
+        </h3>
+    </div>
+</header>
+<div>
+<h2 th:text = "#{error.not-found}">Entity Not Found</h2>
+<h2 class="error" th:text = "${error}">Entity placeholder</h2>
+<h2 th:text="'Status: ' + ${status}">Status: [Status Here]</h2>
+<a th:href="@{/}" class="btn-primary">Go Back to Home</a>
+</div>
+<footer>
+    <small>©️ Copyright 2025, BeerTag</small>
+    <script src="../static/js/app.js"></script>
+</footer>
+</body>
+
+</html>

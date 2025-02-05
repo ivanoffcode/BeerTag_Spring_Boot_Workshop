@@ -28,6 +28,11 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
+    public List<Beer> getAll() {
+        return repository.getAll();
+    }
+
+    @Override
     public List<Beer> get(FilterOptions filterOptions) {
         return repository.get(filterOptions);
     }

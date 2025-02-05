@@ -31,8 +31,8 @@ public class Beer {
     @JoinColumn(name = "brewery_id", nullable = false)
     private Brewery brewery;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonIgnore
+    @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
 

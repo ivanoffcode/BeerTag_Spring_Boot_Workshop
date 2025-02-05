@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface BeerService {
 
+    List<Beer>getAll();
+
     List<Beer> get(FilterOptions filterOptions);
 
     Beer get(int id);

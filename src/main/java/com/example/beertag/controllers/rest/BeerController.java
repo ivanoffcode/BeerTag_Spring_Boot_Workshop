@@ -1,4 +1,4 @@
-package com.example.beertag.controllers;
+package com.example.beertag.controllers.rest;
 
 import com.example.beertag.entities.Beer;
 import com.example.beertag.entities.User;

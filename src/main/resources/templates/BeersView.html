@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>BeerTag</title>
+  <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+</head>
+<body>
+<!-- The header and footer section are the same in each page -->
+<header>
+  <div>
+    <img src="../static/images/logo.png" alt="BeerTag Logo" class="header-image" th:src="@{/images/logo.png}">
+    <h3>
+      <a href="./HomeView.html" th:href="@{/}"> Home</a>
+      | <a href="./BeersView.html" th:href="@{/beers}">Beers</a>
+      | <a href="./AboutView.html" th:href="@{/about}">About</a>
+    </h3>
+  </div>
+</header>
+<div  id="searchBar">
+  <label for="beer-search-field"></label><input
+          onkeydown="onKeyDown()"
+          id="beer-search-field"
+          type="text"
+          placeholder="Search..."
+  />
+  <label for="style-select">Style:</label>
+  <select id="style-select">
+    <option value="">Any</option>
+    <option value="1">IPA</option>
+    <option value="2">EPA</option>
+    <option value="3">Weiss</option>
+    <option value="4">Stout</option>
+  </select>
+  <label for="country-select">Country:</label>
+  <select id="country-select">
+    <option value="">Any</option>
+    <option value="1">Bulgaria</option>
+    <option value="2">Germany</option>
+    <option value="3">Belgium</option>
+    <option value="4">England</option>
+  </select>
+  <button onclick="search()">Search!</button>
+</div>
+<div>
+  <!-- The main content of the page goes here -->
+  <br>
+  <div th:if="${beers.isEmpty()}">
+    <h2 th:text ="#{beers.title.empty}">No Beers</h2>
+  </div>
+  <div th:unless="${beers.isEmpty()}">
+    <h2 th:text="#{beers.title}">All Beers</h2>
+  <table class="styled-table">
+    <thead>
+    <tr>
+      <th th:text="#{beer.image}">Image</th>
+      <th th:text="#{beer.label.name}">Name</th>
+      <th th:text="#{beer.label.description}">Description</th>
+      <th th:text="#{beer.label.abv}">ABV</th>
+      <th th:text="#{beer.label.style}">Style</th>
+      <th th:text="#{beer.label.brewery}">Brewery</th>
+      <th th:text="#{beer.actions}">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="beer: ${beers}">
+      <td class="beerIcon"><img src="../static/images/favicon.ico"  alt="Beer Icon" th:src="@{/images/favicon.ico}"/></td>
+      <td>
+        <a href="#" th:href="@{/beers/{id}(id=${beer.getId()})}" th:text="${beer.name}">Beer Name</a>
+      </td>
+      <td th:text="${beer.description}">Description</td>
+      <td th:text="${beer.abv}">ABV</td>
+      <td th:text="${beer.style.name}">Style Name</td>
+      <td th:text="${beer.brewery.name}">Brewery Name</td>
+      <td><button class="btn-primary">Add to wish list</button>
+      <button class="btn-primary">Mark as drunk</button></td>
+    </tr>
+    </tbody>
+  </table>
+  <br>
+</div>
+<div id="form">
+  <form>
+    <label for="beerImage"> Beer Image </label><br />
+    <input
+            type = "submit"
+            id = "beerImage"
+            name = "beerImage"
+            value = "Upload Beer Image"
+    />
+    <br />
+    <label for="beerName"> Beer Name </label><br />
+    <input
+            type = "text"
+            id = "beerName"
+            name = "beerName"
+            value = ""
+    />
+    <br />
+    <label for="beerStyle"> Beer Style</label><br />
+    <input
+            type = "text"
+            id = "beerStyle"
+            name = "beerStyle"
+            value = ""
+    />
+    <br />
+    <label for="beerAbv"> Beer Abv</label><br />
+    <input
+            type = "text"
+            id = "beerAbv"
+            name = "beerAbv"
+            value = ""
+    />
+    <br />
+    <label for="beerBrewery"> Beer Brewery</label><br />
+    <input
+    type = "text"
+    id = "beerBrewery"
+    name = "beerBrewery"
+    value = ""
+    /><br /><br />
+    <input type="submit" value="Add Beer to your List"/>
+    <br />
+  </form>
+</div>
+
+<footer>
+  <small>©️ Copyright 2025, BeerTag</small>
+  <script src="../static/js/app.js"></script>
+</footer>
+</body>
+</html>

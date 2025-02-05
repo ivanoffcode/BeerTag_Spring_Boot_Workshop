@@ -1,6 +1,7 @@
 package com.example.beertag.repositories;
 
 import com.example.beertag.entities.Beer;
+import com.example.beertag.entities.Brewery;
 import com.example.beertag.entities.filter.FilterOptions;
 import com.example.beertag.exceptions.EntityNotFoundException;
 import org.hibernate.Session;
@@ -21,6 +22,14 @@ public class BeerRepositorySqlImpl implements BeerRepository {
     @Autowired
     public BeerRepositorySqlImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    @Override
+    public List<Beer> getAll() {
+        try ( Session session = sessionFactory.openSession() ){
+            Query<Beer> query = session.createQuery("from Beer", Beer.class);
+            return query.list();
+        }
     }
 
     @Override
