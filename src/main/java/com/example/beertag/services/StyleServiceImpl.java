@@ -20,7 +20,7 @@ public class StyleServiceImpl implements StyleService {
     }
 
     @Override
-    public List<Style> get() {
+    public List<Style> getAll() {
         return styleRepository.get();
     }
 

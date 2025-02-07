@@ -76,7 +76,7 @@ public class BeerController {
     public Beer create(@RequestHeader HttpHeaders headers, @Valid @RequestBody BeerDto beerDto) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
-            Beer beerToCreate = beerMapper.fromDto(beerDto);
+            Beer beerToCreate = beerMapper.fromDto(beerDto, user);
             service.create(beerToCreate, user);
             return beerToCreate;
 

@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/PageLayout.html:: head('Edit Beer')}"></head>
+<body>
+<header th:replace="~{fragments/PageLayout.html:: navigation}"></header>
+<form th:replace="~{fragments/beerFragment.html :: beer-form('Edit Beer')}"></form>
+</body>
+<footer th:replace="~{fragments/PageLayout.html:: footer}"></footer>
+</html>

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface StyleService {
 
-    List<Style> get();
+    List<Style> getAll();
 
     Style get(int id);
 

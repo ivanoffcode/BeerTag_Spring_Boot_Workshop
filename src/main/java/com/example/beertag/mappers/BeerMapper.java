@@ -1,6 +1,7 @@
 package com.example.beertag.mappers;
 
 import com.example.beertag.entities.Beer;
+import com.example.beertag.entities.User;
 import com.example.beertag.entities.dtos.BeerDto;
 import com.example.beertag.services.BeerService;
 import com.example.beertag.services.BreweryService;
@@ -31,7 +32,6 @@ public class BeerMapper {
         beer.setCreatedBy(repositoryBeer.getCreatedBy());
         return beer;
     }
-
     public Beer fromDto(BeerDto beerDto){
         Beer beer = new Beer();
         beer.setName(beerDto.getName());
@@ -40,6 +40,27 @@ public class BeerMapper {
         beer.setStyle(styleService.get(beerDto.getStyleId()));
         beer.setBrewery(breweryService.getByID(beerDto.getBreweryId()));
         return beer;
+    }
+
+    public Beer fromDto(BeerDto beerDto, User creator){
+        Beer beer = new Beer();
+        beer.setName(beerDto.getName());
+        beer.setDescription(beerDto.getDescription());
+        beer.setAbv(beerDto.getAbv());
+        beer.setStyle(styleService.get(beerDto.getStyleId()));
+        beer.setBrewery(breweryService.getByID(beerDto.getBreweryId()));
+        beer.setCreatedBy(creator);
+        return beer;
+    }
+
+    public BeerDto toDto(Beer beer) {
+        BeerDto beerDto = new BeerDto();
+        beerDto.setName(beer.getName());
+        beerDto.setDescription(beer.getDescription());
+        beerDto.setAbv(beer.getAbv());
+        beerDto.setStyleId(beer.getStyle().getId());
+        beerDto.setBreweryId(beer.getBrewery().getId());
+        return beerDto;
     }
 
 }

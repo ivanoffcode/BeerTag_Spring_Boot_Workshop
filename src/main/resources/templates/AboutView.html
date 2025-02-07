@@ -1,30 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
-<head>
-  <meta charset="utf-8" />
-  <title>BeerTag</title>
-  <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
-</head>
+<head th:replace="~{fragments/PageLayout.html:: head('About')}"></head>
 <body>
 <!-- The header and footer section are the same in each page -->
-<header>
-  <div>
-    <img src="../static/images/logo.png" alt="BeerTag Logo" class="header-image" th:src="@{/images/logo.png}">
-    <h3>
-      <a href="./HomeView.html" th:href="@{/}"> Home</a>
-      | <a href="./BeersView.html" th:href="@{/beers}">Beers</a>
-      | <a href="./AboutView.html" th:href="@{/about}">About</a>
-    </h3>
-  </div>
-</header>
-
+<header th:replace="~{fragments/PageLayout.html:: navigation}"></header>
 <div class="body-content">
   <!-- The main content of the page goes here -->
   <h2 th:utext="#{about.info}">About info here</h2>
 </div>
-
-<footer>
-  <small>©️ Copyright 2025, BeerTag</small>
-</footer>
+<footer th:replace="~{fragments/PageLayout.html:: footer}"></footer>
 </body>
 </html>

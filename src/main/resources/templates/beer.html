@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Beer</title>
-    <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
-</head>
+<head th:replace="~{fragments/PageLayout.html:: head('View Beer')}"></head>
 <body>
+<header th:replace="~{fragments/PageLayout.html:: navigation}"></header>
 <h1 th:text="${beer.name}">Beer</h1>
 <h1 th:text="${beer.description}">Description</h1>
 <h1 th:text="${beer.abv}">ABV</h1>
 <h1 th:text="${beer.style.name}">Style</h1>
 <h1 th:text="${beer.brewery.name}">Brewery</h1>
 <h1 th:text="${beer.createdBy.email}">Creator's email</h1>
+<form th:action="@{/beers/{id}/update(id=${beer.id})}" method="get">
+    <button type="submit" class="btn-primary">Edit Beer</button>
+</form>
+<form th:action="@{/beers/{id}/delete(id=${beer.id})}" method="get">
+    <button type="submit" class="btn-primary">Delete Beer</button>
+</form>
 </body>
+<br/>
+<footer th:replace="~{fragments/PageLayout.html:: footer}"></footer>
 </html>

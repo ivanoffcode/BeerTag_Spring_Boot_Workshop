@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8">
+  <title th:text="'BeerTag | ' + ${title}">Title</title>
+  <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+</head>
+<body>
+<header th:fragment="navigation">
+  <div>
+    <img src="../static/images/logo.png" alt="BeerTag Logo" class="header-image" th:src="@{/images/logo.png}">
+    <h3>
+      <a href="./HomeView.html" th:href="@{/}"> Home</a>
+      | <a href="./BeersView.html" th:href="@{/beers}">Beers</a>
+      | <a href="./AboutView.html" th:href="@{/about}">About</a>
+    </h3>
+  </div>
+</header>
+</body>
+<footer th:fragment="footer">
+  <small th:text="${'©️ Copyright ' + #dates.year(#dates.createNow()) + ' BeerTag'}">BeerTag</small>
+</footer>
+</html>
