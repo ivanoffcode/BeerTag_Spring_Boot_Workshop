@@ -2,6 +2,7 @@ header {
     text-align: right;
     padding: 10px 50px 10px 44px;
     border-bottom: 1px solid #dee2e6;
+    scrollbar-gutter: stable;
 }
 
 .header-image {
@@ -16,14 +17,16 @@ footer {
     text-align: center;
     padding: 10px 50px 10px 50px;
     border-top: 1px solid #dee2e6;
+    scrollbar-gutter: stable;
 }
 
 a {
     color: #007bff;
 }
 
-body {
+html, body {
     background-color: #ffbf00;
+    scrollbar-gutter: stable;
 }
 
 .body-content {
