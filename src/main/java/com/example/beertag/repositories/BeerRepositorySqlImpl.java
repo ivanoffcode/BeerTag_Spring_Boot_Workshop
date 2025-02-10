@@ -134,7 +134,6 @@ public class BeerRepositorySqlImpl implements BeerRepository {
             session.persist(beer);
             session.getTransaction().commit();
         }
-
     }
 
     //  @Transactional

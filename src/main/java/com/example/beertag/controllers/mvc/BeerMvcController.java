@@ -5,19 +5,23 @@ import com.example.beertag.entities.Brewery;
 import com.example.beertag.entities.Style;
 import com.example.beertag.entities.User;
 import com.example.beertag.entities.dtos.BeerDto;
+import com.example.beertag.exceptions.AuthenticationFailureException;
 import com.example.beertag.exceptions.DuplicateEntityException;
 import com.example.beertag.exceptions.EntityNotFoundException;
+import com.example.beertag.exceptions.UnauthorizedOperationException;
+import com.example.beertag.helpers.AuthenticationHelper;
 import com.example.beertag.mappers.BeerMapper;
 import com.example.beertag.services.BeerService;
 import com.example.beertag.services.BreweryService;
 import com.example.beertag.services.StyleService;
 import com.example.beertag.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,17 +36,19 @@ public class BeerMvcController {
     private final BreweryService breweryService;
     private final BeerMapper beerMapper;
     private final UserService userService;
-
+    private final AuthenticationHelper authenticationHelper;
+    @Autowired
     public BeerMvcController(BeerService beerService,
                              StyleService styleService,
                              BreweryService breweryService,
                              BeerMapper beerMapper,
-                             UserService userService) {
+                             UserService userService, AuthenticationHelper authenticationHelper) {
         this.beerService = beerService;
         this.styleService = styleService;
         this.breweryService = breweryService;
         this.beerMapper = beerMapper;
         this.userService = userService;
+        this.authenticationHelper = authenticationHelper;
     }
 
     @GetMapping("/{id}")
@@ -74,7 +80,12 @@ public class BeerMvcController {
     }
 
     @GetMapping("/new")
-    public String showNewBeerPage(Model model) {
+    public String showNewBeerPage(Model model, HttpSession session) {
+        try{
+            authenticationHelper.tryGetUser(session);
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/auth/login";
+        }
         model.addAttribute("beer", new BeerDto());
         return "beer-new";
     }
@@ -96,15 +107,20 @@ public class BeerMvcController {
 
     @PostMapping("/new")
     public String createBeer(@Valid @ModelAttribute("beer") BeerDto beer,
-                             BindingResult errors, Model model) {
+                             BindingResult errors, Model model, HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetUser(session);
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/auth/login";
+        }
+
         if (errors.hasErrors()) {
             return "beer-new";
         }
         try {
-            //ToDo rework with MVC Authentication
-            User creator = userService.get(1);
-            Beer newBeer = beerMapper.fromDto(beer, creator);
-            beerService.create(newBeer, creator);
+            Beer newBeer = beerMapper.fromDto(beer, user);
+            beerService.create(newBeer, user);
             return "redirect:/beers";
         } catch (DuplicateEntityException e) {
             errors.rejectValue("name", "beer.exists", e.getMessage());
@@ -116,22 +132,39 @@ public class BeerMvcController {
     }
 
     @GetMapping("/{id}/update")
-    public String showEditBeerPage(@PathVariable int id, Model model){
-        Beer beer = beerService.get(id);
-        BeerDto beerDto = beerMapper.toDto(beer);
-        model.addAttribute("beer", beerDto);
-        return "beer-update";
+    public String showEditBeerPage(@PathVariable int id, Model model, HttpSession session){
+        try{
+            authenticationHelper.tryGetUser(session);
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/auth/login";
+        }
+        try{
+            Beer beer = beerService.get(id);
+            BeerDto beerDto = beerMapper.toDto(beer);
+            model.addAttribute("beerId", id);
+            model.addAttribute("beer", beerDto);
+            return "beer-update";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "ErrorView";
+        }
+
     }
 
     @PostMapping("/{id}/update")
     public String updateBeer(@PathVariable int id, @Valid @ModelAttribute("beer") BeerDto beer,
-                             BindingResult errors, Model model) {
+                             BindingResult errors, Model model, HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetUser(session);
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/auth/login";
+        }
+
         if (errors.hasErrors()) {
             return "beer-update";
         }
         try {
-            //ToDo rework with MVC Authentication
-            User user = userService.get(1);
             Beer newBeer = beerMapper.fromDto(id, beer);
             beerService.update(newBeer, user);
             return "redirect:/beers";
@@ -141,13 +174,23 @@ public class BeerMvcController {
         } catch (EntityNotFoundException e) {
             model.addAttribute("error", e.getMessage());
             return "ErrorView";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("statusCode", HttpStatus.FORBIDDEN.value()
+                    + " " + HttpStatus.FORBIDDEN.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "AccessDeniedView";
         }
     }
 
     @GetMapping("/{id}/delete")
-    public String deleteBeer(@PathVariable int id, Model model) {
+    public String deleteBeer(@PathVariable int id, Model model, HttpSession session) {
+        User user;
         try {
-            User user = userService.get(1);
+            user = authenticationHelper.tryGetUser(session);
+        } catch (AuthenticationFailureException e) {
+            return "redirect:/auth/login";
+        }
+        try {
             beerService.delete(id, user);
             return "redirect:/beers";
         }
@@ -156,6 +199,11 @@ public class BeerMvcController {
                     + " " + HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
             return "ErrorView";
+        } catch (UnauthorizedOperationException e) {
+            model.addAttribute("statusCode", HttpStatus.FORBIDDEN.value()
+                    + " " + HttpStatus.FORBIDDEN.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "AccessDeniedView";
         }
     }
 }

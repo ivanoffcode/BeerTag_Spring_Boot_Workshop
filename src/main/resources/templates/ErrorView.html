@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
 <head th:replace="~{fragments/PageLayout.html:: head('Error')}"></head>
 <body>
-<header th:replace="~{fragments/PageLayout.html:: navigation}"></header>
+<header th:replace="~{fragments/PageLayout.html:: header}"></header>
 <div>
 <h2 th:text = "#{error.not-found}">Entity Not Found</h2>
 <h2 class="error" th:text = "${error}">Entity placeholder</h2>

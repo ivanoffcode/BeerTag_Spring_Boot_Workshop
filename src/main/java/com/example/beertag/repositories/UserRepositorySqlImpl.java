@@ -22,7 +22,7 @@ public class UserRepositorySqlImpl implements UserRepository {
     }
 
     @Override
-    public List<User> get() {
+    public List<User> getAllUsers() {
         try ( Session session = sessionFactory.openSession() ){
             Query<User> query = session.createQuery("from User", User.class);
             return query.list();
@@ -30,7 +30,7 @@ public class UserRepositorySqlImpl implements UserRepository {
     }
 
     @Override
-    public User get(int id) {
+    public User getById(int id) {
         try (Session session = sessionFactory.openSession()) {
             User user = session.get(User.class, id);
             if (user == null){
@@ -41,7 +41,7 @@ public class UserRepositorySqlImpl implements UserRepository {
     }
 
     @Override
-    public User get(String username) {
+    public User getByUsername(String username) {
         try ( Session session = sessionFactory.openSession() ){
             Query<User> query = session.createQuery("from User where username = :username", User.class);
             query.setParameter("username", username);
@@ -61,4 +61,24 @@ public class UserRepositorySqlImpl implements UserRepository {
             session.getTransaction().commit();
         }
     }
+
+    @Override
+    public void create(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.persist(user);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        User userToDelete = getById(id);
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.remove(userToDelete);
+            session.getTransaction().commit();
+        }
+    }
+
 }

@@ -38,7 +38,7 @@ public class UserController {
             if (!user.isAdmin()) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ERROR_MESSAGE);
             }
-            return service.get();
+            return service.getAllUsers();
         } catch (UnauthorizedOperationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
@@ -49,7 +49,7 @@ public class UserController {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             checkAccessPermissions(id, user);
-            return service.get(id);
+            return service.getById(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {
@@ -62,7 +62,7 @@ public class UserController {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             checkAccessPermissions(id, user);
-            return new ArrayList<>(service.get(id).getWishlist());
+            return new ArrayList<>(service.getById(id).getWishlist());
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (UnauthorizedOperationException e) {

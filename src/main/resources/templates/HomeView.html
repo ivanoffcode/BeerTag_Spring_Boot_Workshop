@@ -3,10 +3,11 @@
 <head th:replace="~{fragments/PageLayout.html:: head('Home')}"></head>
 <body>
 <!-- The header and footer section are the same in each page -->
-<header th:replace="~{fragments/PageLayout.html:: navigation}"></header>
+<header th:replace="~{fragments/PageLayout.html:: header}"></header>
 <div class="body-content">
     <!-- The main content of the page goes here -->
     <h2 th:text="#{home.info}">Home Info</h2>
+    <h2 th:if="${isAuthenticated}" th:text="${session.currentUser} + '!'"></h2>
     <img src="../static/images/favicon.ico" alt="Beer Icon" class="centered-icon" th:src="@{/images/favicon.ico}">
 </div>
 <footer th:replace="~{fragments/PageLayout.html:: footer}"></footer>

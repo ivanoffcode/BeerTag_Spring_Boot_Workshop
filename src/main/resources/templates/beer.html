@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th = "http://www.thymeleaf.org">
 <head th:replace="~{fragments/PageLayout.html:: head('View Beer')}"></head>
 <body>
-<header th:replace="~{fragments/PageLayout.html:: navigation}"></header>
+<header th:replace="~{fragments/PageLayout.html:: header}"></header>
 <h1 th:text="${beer.name}">Beer</h1>
 <h1 th:text="${beer.description}">Description</h1>
 <h1 th:text="${beer.abv}">ABV</h1>

@@ -3,6 +3,7 @@ package com.example.beertag.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,6 +23,12 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
     @Column(name = "email")
     private String email;
 
@@ -37,6 +44,13 @@ public class User {
     )
     private Set<Beer> wishlist;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -73,6 +87,22 @@ public class User {
         this.email = email;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String first_name) {
+        this.firstName = first_name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String last_name) {
+        this.lastName = last_name;
+    }
+
     public boolean isAdmin() {
         return isAdmin;
     }
@@ -95,6 +125,24 @@ public class User {
 
     public void setWishlist(Set<Beer> wishlist) {
         this.wishlist = wishlist;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    // Method to add a role
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    // Method to remove a role
+    public void removeRole(Role role) {
+        this.roles.remove(role);
     }
 
     @Override

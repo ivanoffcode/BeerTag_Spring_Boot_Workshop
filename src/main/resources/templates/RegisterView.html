@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/PageLayout.html::head('Register')}"></head>
+<body>
+<header th:replace="~{fragments/PageLayout.html::header}"></header>
+
+<div class="body-content">
+    <h2>Register Page</h2>
+    <form th:action="@{/auth/register}" th:object="${register}" method="post">
+        <!-- First Name -->
+        <label th:text="#{user.label.firstName}">First Name</label>
+        <br/>
+        <input type="text" th:field="*{firstName}">
+        <label class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error placeholder</label>
+        <br/><br/>
+
+        <!-- Last Name -->
+        <label th:text="#{user.label.lastName}">Last Name</label>
+        <br/>
+        <input type="text" th:field="*{lastname}">
+        <label class="error" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}">Last name error placeholder</label>
+        <br/><br/>
+
+        <!-- Email -->
+        <label th:text="#{user.label.email}">Email</label>
+        <br/>
+        <input type="email" th:field="*{email}">
+        <label class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error placeholder</label>
+        <br/><br/>
+
+        <!-- Username -->
+        <label th:text="#{user.label.username}">Username</label>
+        <br/>
+        <input type="text" th:field="*{username}">
+        <label class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error placeholder</label>
+        <br/><br/>
+
+        <!-- Password -->
+        <label th:text="#{user.label.password}">Password</label>
+        <br>
+        <input type="password" th:field="*{password}">
+        <label class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error placeholder</label>
+        <br/><br/>
+
+        <!-- Password Confirmation -->
+        <label th:text="#{user.label.passwordConfirm}">Confirm Password</label>
+        <br>
+        <input type="password" th:field="*{passwordConfirm}">
+        <label class="error" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">Password confirmation error placeholder</label>
+        <br/><br/>
+
+        <input type="submit" value="Register">
+    </form>
+</div>
+
+<footer th:replace="~{fragments/PageLayout.html::footer}"></footer>
+</body>
+</html>
