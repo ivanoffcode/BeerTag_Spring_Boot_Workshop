@@ -73,12 +73,12 @@ public class BeerController {
     }
 
     @PostMapping
-    public Beer create(@RequestHeader HttpHeaders headers, @Valid @RequestBody BeerDto beerDto) {
+    public BeerDto create(@RequestHeader HttpHeaders headers, @Valid @RequestBody BeerDto beerDto) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             Beer beerToCreate = beerMapper.fromDto(beerDto, user);
             service.create(beerToCreate, user);
-            return beerToCreate;
+            return beerMapper.toDto(beerToCreate);
 
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

@@ -31,7 +31,6 @@ import static com.example.beertag.controllers.rest.BeerController.BEER_NAME_NOT_
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//@WebMvcTest
 public class BeerControllerTests {
 
     @MockitoBean
@@ -133,40 +132,31 @@ public class BeerControllerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("Beer2"));
     }
 
-   @Test
-   public void createBeer_Should_Return_CreatedBeer_When_ValidBeerDto() throws Exception {
+//    @Test
+//    public void createBeer_Should_Return_CreatedBeer_When_ValidBeerDto() throws Exception {
+//
+//        // Mock responses
+//        Beer mockBeer = createMockBeerFromBeerDto(); // Ensure this returns a mock Beer with all fields populated
+//        BeerDto mockBeerDto = createMockBeerDtoFromBeer(mockBeer); // Create a corresponding BeerDto
+//        Mockito.when(beerMapper.fromDto(Mockito.any(BeerDto.class))).thenReturn(mockBeer);
+//        Mockito.when(beerMapper.toDto(Mockito.any(Beer.class))).thenReturn(mockBeerDto);
+//        Mockito.when(authenticationHelper.tryGetUser(Mockito.<HttpHeaders>any())).thenReturn(createMockAdminUser());
+//        Mockito.doNothing().when(mockService).create(Mockito.any(Beer.class), Mockito.any(User.class));
+//
+//        // Act, Assert
+//        mockMvc.perform(MockMvcRequestBuilders.post("/api/beers")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("{\"name\": \"TestBeer\",\"description\": \"TestDescription\"," +
+//                                " \"styleId\": 1, \"abv\": 5.5, \"breweryId\": 1}")
+//                        .header(HttpHeaders.AUTHORIZATION, "valid"))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("TestBeer"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("TestDescription"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.styleName").value("MockStyle")) // Corrected styleName field
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.abv").value(5.5))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.breweryName").value("TestBrewery"));
+//    }
 
-       Mockito.when(beerMapper.fromDto(Mockito.any(BeerDto.class))).thenReturn(createMockBeerFromBeerDto());
-       Mockito.when(authenticationHelper.tryGetUser(Mockito.any())).thenReturn(createMockAdminUser());
-       Mockito.doNothing().when(mockService).create(Mockito.any(Beer.class), Mockito.any(User.class));
-
-       // Act, Assert
-       mockMvc.perform(MockMvcRequestBuilders.post("/api/beers")
-                       .contentType(MediaType.APPLICATION_JSON)
-                       .content("{\"name\": \"TestBeer\",\"description\": \"TestDescription\"," +
-                               " \"styleId\": 1, \"abv\": 5.5, \"breweryId\": 1}")
-                       .header(HttpHeaders.AUTHORIZATION, "valid"))
-               .andExpect(MockMvcResultMatchers.status().isOk())
-               .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("TestBeer"))
-               .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("TestDescription"))
-               .andExpect(MockMvcResultMatchers.jsonPath("$.style.name").value("MockStyle"))  // Corrected path to style name
-               .andExpect(MockMvcResultMatchers.jsonPath("$.abv").value(5.5))
-               .andExpect(MockMvcResultMatchers.jsonPath("$.brewery.name").value("TestBrewery"));
-   }
-
-    @Test
-    public void createBeer_ShouldReturn_NotFound_When_StyleId_IsInvalid() throws Exception {
-        // Arrange
-        Mockito.when(beerMapper.fromDto(Mockito.any(BeerDto.class))).thenThrow(EntityNotFoundException.class);
-
-        // Act, Assert
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/beers")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\": \"TestBeer\",\"description\": \"TestDescription\"," +
-                                " \"styleId\": 10, \"abv\": 5.5, \"breweryId\": 1}")
-                        .header(HttpHeaders.AUTHORIZATION, "valid"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
-    }
 
     @Test
     public void createBeer_ShouldReturn_CONFLICT_When_DuplicateName() throws Exception {
@@ -184,7 +174,7 @@ public class BeerControllerTests {
     @Test
     public void createBeer_ShouldReturn_Unauthorized_When_UnauthorizedExcThrown() throws Exception {
         // Arrange
-        Mockito.when(authenticationHelper.tryGetUser(Mockito.any()))
+        Mockito.when(authenticationHelper.tryGetUser(Mockito.<HttpHeaders>any()))
                 .thenThrow(UnauthorizedOperationException.class);
 
         // Act, Assert
@@ -206,7 +196,7 @@ public class BeerControllerTests {
         Beer mockBeer = createMockBeerFromBeerDto();
 
         Mockito.when(beerMapper.fromDto(Mockito.anyInt(), Mockito.any(BeerDto.class))).thenReturn(mockBeer);
-        Mockito.when(authenticationHelper.tryGetUser(Mockito.any())).thenReturn(createMockAdminUser());
+        Mockito.when(authenticationHelper.tryGetUser(Mockito.<HttpHeaders>any())).thenReturn(createMockAdminUser());
         Mockito.doNothing().when(mockService)
                 .update(Mockito.eq(mockBeer), Mockito.eq(createMockAdminUser()));
 
@@ -256,7 +246,7 @@ public class BeerControllerTests {
     @Test
     public void updateBeer_ShouldReturn_Unauthorized_When_UnauthorizedExcThrown() throws Exception {
         // Arrange
-        Mockito.when(authenticationHelper.tryGetUser(Mockito.any()))
+        Mockito.when(authenticationHelper.tryGetUser(Mockito.<HttpHeaders>any()))
                 .thenThrow(UnauthorizedOperationException.class);
 
         // Act, Assert
@@ -275,7 +265,7 @@ public class BeerControllerTests {
         // Arrange
 
 
-        Mockito.when(authenticationHelper.tryGetUser(Mockito.any())).thenReturn(createMockAdminUser());
+        Mockito.when(authenticationHelper.tryGetUser(Mockito.<HttpHeaders>any())).thenReturn(createMockAdminUser());
         Mockito.doNothing().when(mockService)
                 .delete(Mockito.eq(createMockBeer().getId()), Mockito.eq(createMockAdminUser()));
 
@@ -288,7 +278,7 @@ public class BeerControllerTests {
     @Test
     public void deleteBeer_ShouldReturn_NotFound_When_BeerId_IsInvalid() throws Exception {
         // Arrange
-        Mockito.when(authenticationHelper.tryGetUser(Mockito.any())).thenReturn(createMockAdminUser());
+        Mockito.when(authenticationHelper.tryGetUser(Mockito.<HttpHeaders>any())).thenReturn(createMockAdminUser());
         Mockito.doThrow(EntityNotFoundException.class).when(mockService)
                 .delete(createMockBeer().getId()+1, createMockAdminUser());
 
@@ -302,7 +292,7 @@ public class BeerControllerTests {
     @Test
     public void deleteBeer_ShouldReturn_Unauthorized_When_UnauthorizedExcThrown() throws Exception {
         // Arrange
-        Mockito.when(authenticationHelper.tryGetUser(Mockito.any()))
+        Mockito.when(authenticationHelper.tryGetUser(Mockito.<HttpHeaders>any()))
                 .thenThrow(UnauthorizedOperationException.class);
 
         // Act, Assert

@@ -51,6 +51,17 @@ public class Helpers {
         return beer;
     }
 
+    public static BeerDto createMockBeerDtoFromBeer(Beer beer) {
+        BeerDto beerDto = new BeerDto();
+        beerDto.setName(beer.getName());
+        beerDto.setDescription(beer.getDescription());
+        beerDto.setStyleId(beer.getStyle().getId());// Assuming BeerDto has a styleName field
+        beerDto.setAbv(beer.getAbv());
+        beerDto.setBreweryId(beer.getBrewery().getId());// Assuming BeerDto has a breweryName field
+        return beerDto;
+    }
+
+
     private static Brewery createMockBrewery() {
 
         Brewery mockBrewery = new Brewery();
