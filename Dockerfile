@@ -14,7 +14,7 @@ RUN chmod +x gradlew
 RUN ./gradlew build -x test --no-daemon
 
 # Stage 2: Create a lightweight runtime image
-FROM openjdk:17-jrd-slim
+FROM openjdk:17-jre-slim
 
 # Set the working directory
 WORKDIR /app
