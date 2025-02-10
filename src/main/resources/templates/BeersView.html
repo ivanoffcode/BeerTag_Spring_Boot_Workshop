@@ -37,7 +37,7 @@
   </div>
   <div th:unless="${beers.isEmpty()}">
     <h2 th:text="#{beers.title}">All Beers |</h2>
-    | <a href="./beer-new.html" th:href="@{/beers/new}">Create New Beer</a>
+    <h2><a href="./beer-new.html" th:href="@{/beers/new}">Create New Beer</a></h2>
   <table class="styled-table">
     <thead>
     <tr>
@@ -60,57 +60,18 @@
       <td th:text="${beer.abv}">ABV</td>
       <td th:text="${beer.style.name}">Style Name</td>
       <td th:text="${beer.brewery.name}">Brewery Name</td>
-      <td><button class="btn-primary">Add to wish list</button>
-      <button class="btn-primary">Mark as drunk</button></td>
+      <td><form th:action="@{/wishlist/add}" method="post">
+        <input type="hidden" th:name="beerId" th:value="${beer.id}" />
+        <button type="submit" class="btn-primary">Add to wish list</button>
+      </form>
+        <form th:action="@{/wishlist/mark-as-drunk}" method="post">
+          <input type="hidden" th:name="beerId" th:value="${beer.id}" />
+          <button type="submit" class="btn-primary">Mark as drunk</button>
+        </form>
     </tr>
     </tbody>
   </table>
   <br>
-</div>
-<div id="form">
-  <form>
-    <label for="beerImage"> Beer Image </label><br />
-    <input
-            type = "submit"
-            id = "beerImage"
-            name = "beerImage"
-            value = "Upload Beer Image"
-    />
-    <br />
-    <label for="beerName"> Beer Name </label><br />
-    <input
-            type = "text"
-            id = "beerName"
-            name = "beerName"
-            value = ""
-    />
-    <br />
-    <label for="beerStyle"> Beer Style</label><br />
-    <input
-            type = "text"
-            id = "beerStyle"
-            name = "beerStyle"
-            value = ""
-    />
-    <br />
-    <label for="beerAbv"> Beer Abv</label><br />
-    <input
-            type = "text"
-            id = "beerAbv"
-            name = "beerAbv"
-            value = ""
-    />
-    <br />
-    <label for="beerBrewery"> Beer Brewery</label><br />
-    <input
-    type = "text"
-    id = "beerBrewery"
-    name = "beerBrewery"
-    value = ""
-    /><br /><br />
-    <input type="submit" value="Add Beer to your List"/>
-    <br />
-  </form>
 </div>
 </div>
 </body>

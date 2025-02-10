@@ -4,6 +4,8 @@
 <body>
 <header th:replace="~{fragments/PageLayout.html:: header}"></header>
 <h2 class="error" th:text="${error}">Error Placeholder</h2>
+<h2 th:text="'Status: ' + ${status}">Status: [Status Here]</h2>
+<a th:href="@{/}" class="btn-primary">Go Back to Home</a>
 </body>
 <footer th:replace="~{fragments/PageLayout.html:: footer}"></footer>
 </html>

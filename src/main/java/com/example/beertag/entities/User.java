@@ -38,11 +38,20 @@ public class User {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "users_beers",
+            name = "users_wishlist",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "beer_id")
     )
     private Set<Beer> wishlist;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_drunk_beers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "beer_id")
+    )
+    private Set<Beer> drunkBeers;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -143,6 +152,14 @@ public class User {
     // Method to remove a role
     public void removeRole(Role role) {
         this.roles.remove(role);
+    }
+
+    public Set<Beer> getDrunkBeers() {
+        return drunkBeers;
+    }
+
+    public void setDrunkBeers(Set<Beer> drunkBeers) {
+        this.drunkBeers = drunkBeers;
     }
 
     @Override

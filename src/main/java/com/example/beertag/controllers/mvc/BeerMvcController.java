@@ -14,7 +14,6 @@ import com.example.beertag.mappers.BeerMapper;
 import com.example.beertag.services.BeerService;
 import com.example.beertag.services.BreweryService;
 import com.example.beertag.services.StyleService;
-import com.example.beertag.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -35,20 +34,24 @@ public class BeerMvcController {
     private final StyleService styleService;
     private final BreweryService breweryService;
     private final BeerMapper beerMapper;
-    private final UserService userService;
     private final AuthenticationHelper authenticationHelper;
+
     @Autowired
     public BeerMvcController(BeerService beerService,
                              StyleService styleService,
                              BreweryService breweryService,
                              BeerMapper beerMapper,
-                             UserService userService, AuthenticationHelper authenticationHelper) {
+                             AuthenticationHelper authenticationHelper) {
         this.beerService = beerService;
         this.styleService = styleService;
         this.breweryService = breweryService;
         this.beerMapper = beerMapper;
-        this.userService = userService;
         this.authenticationHelper = authenticationHelper;
+    }
+
+    @ModelAttribute("isAuthenticated")
+    public boolean populateIsAuthenticated(HttpSession session){
+        return session.getAttribute("currentUser") != null;
     }
 
     @GetMapping("/{id}")
@@ -148,7 +151,6 @@ public class BeerMvcController {
             model.addAttribute("error", e.getMessage());
             return "ErrorView";
         }
-
     }
 
     @PostMapping("/{id}/update")
@@ -175,7 +177,7 @@ public class BeerMvcController {
             model.addAttribute("error", e.getMessage());
             return "ErrorView";
         } catch (UnauthorizedOperationException e) {
-            model.addAttribute("statusCode", HttpStatus.FORBIDDEN.value()
+            model.addAttribute("status", HttpStatus.FORBIDDEN.value()
                     + " " + HttpStatus.FORBIDDEN.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
             return "AccessDeniedView";
@@ -200,7 +202,7 @@ public class BeerMvcController {
             model.addAttribute("error", e.getMessage());
             return "ErrorView";
         } catch (UnauthorizedOperationException e) {
-            model.addAttribute("statusCode", HttpStatus.FORBIDDEN.value()
+            model.addAttribute("status", HttpStatus.FORBIDDEN.value()
                     + " " + HttpStatus.FORBIDDEN.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
             return "AccessDeniedView";

@@ -36,4 +36,4 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-tasks.withType(Test).configureEach {    jvmArgs '-Xshare:off'}
+tasks.withType(Test).configureEach { jvmArgs '-Xshare:off' }

@@ -5,7 +5,6 @@ import com.example.beertag.entities.dtos.LoginDto;
 import com.example.beertag.entities.dtos.RegisterDto;
 import com.example.beertag.exceptions.AuthenticationFailureException;
 import com.example.beertag.exceptions.DuplicateEntityException;
-import com.example.beertag.exceptions.EntityNotFoundException;
 import com.example.beertag.helpers.AuthenticationHelper;
 import com.example.beertag.mappers.UserMapper;
 import com.example.beertag.services.UserService;
@@ -60,7 +59,6 @@ public class AuthenticationMvcController {
         if (bindingResult.hasErrors()){
             return "LoginView";
         }
-
         try {
             authenticationHelper.verifyAuthentication(loginDto.getUsername(),
                     loginDto.getPassword());
@@ -71,12 +69,11 @@ public class AuthenticationMvcController {
                     e.getMessage());
             return "LoginView";
         }
-
     }
 
     @PostMapping("/register")
     public String handleRegister(@Valid @ModelAttribute("register") RegisterDto registerDto,
-                                 BindingResult bindingResult, HttpSession session){
+                                 BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return "RegisterView";
         }

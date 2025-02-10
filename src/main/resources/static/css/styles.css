@@ -59,7 +59,7 @@ html, body {
     font-weight: bold;
 }
 
-.styled-table tr:nth-child(even) {
+.styled-table tr:nth-child {
     background-color: #f9f9f9;
 }
 

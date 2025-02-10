@@ -3,7 +3,6 @@
 <head th:replace="~{fragments/PageLayout.html:: head('Login')}"></head>
 <body>
 <header th:replace="~{fragments/PageLayout.html:: header}"></header>
-
 <div class="body-content">
   <h2>Login Page</h2>
   <form th:action="@{/auth/login}" th:object="${login}" method="post">
