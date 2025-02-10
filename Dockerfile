@@ -12,7 +12,7 @@ COPY src /app/src
 RUN chmod +x gradlew
 
 # Build the application
-RUN ./gradlew clean build -DskipTests=true --no-daemon
+RUN ./gradlew clean build -x test --no-daemon
 
 # Stage 2: Create a lightweight runtime image
 FROM eclipse-temurin:17-jre-focal
