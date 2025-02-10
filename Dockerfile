@@ -20,7 +20,7 @@ FROM openjdk:17-jre-slim
 WORKDIR /app
 
 # Copy the built JAR file from the build stage
-COPY --from=build /app/build/libs/*.jar app.jar
+COPY --from=build /app/build/libs/beer-tag-0.1.0.jar app.jar
 
 # Expose the port your application runs on (e.g., 8080)
 EXPOSE 8080
