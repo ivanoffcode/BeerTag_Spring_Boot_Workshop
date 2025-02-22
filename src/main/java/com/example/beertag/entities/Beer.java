@@ -2,6 +2,8 @@ package com.example.beertag.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.Objects;
 
@@ -41,7 +43,8 @@ public class Beer {
 //            regexp = "^(http|https)://.*",
 //            message = "Picture must be a valid URL"
 //    )
-//    private String picture;
+    @Column(name = "photo_url")
+    private String picture;
 
     public Beer() {
     }

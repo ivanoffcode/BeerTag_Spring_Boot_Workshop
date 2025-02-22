@@ -5,6 +5,8 @@ import com.example.beertag.entities.Brewery;
 import com.example.beertag.entities.Style;
 import com.example.beertag.entities.User;
 import com.example.beertag.entities.dtos.BeerDto;
+import com.example.beertag.entities.dtos.FilterDto;
+import com.example.beertag.entities.filter.FilterOptions;
 import com.example.beertag.exceptions.AuthenticationFailureException;
 import com.example.beertag.exceptions.DuplicateEntityException;
 import com.example.beertag.exceptions.EntityNotFoundException;
@@ -14,6 +16,7 @@ import com.example.beertag.mappers.BeerMapper;
 import com.example.beertag.services.BeerService;
 import com.example.beertag.services.BreweryService;
 import com.example.beertag.services.StyleService;
+import com.example.beertag.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -35,23 +38,31 @@ public class BeerMvcController {
     private final BreweryService breweryService;
     private final BeerMapper beerMapper;
     private final AuthenticationHelper authenticationHelper;
+    private final UserService userService;
 
     @Autowired
     public BeerMvcController(BeerService beerService,
                              StyleService styleService,
                              BreweryService breweryService,
                              BeerMapper beerMapper,
-                             AuthenticationHelper authenticationHelper) {
+                             AuthenticationHelper authenticationHelper, UserService userService) {
         this.beerService = beerService;
         this.styleService = styleService;
         this.breweryService = breweryService;
         this.beerMapper = beerMapper;
         this.authenticationHelper = authenticationHelper;
+        this.userService = userService;
     }
 
     @ModelAttribute("isAuthenticated")
     public boolean populateIsAuthenticated(HttpSession session){
         return session.getAttribute("currentUser") != null;
+    }
+
+    @ModelAttribute("currentUser")
+    public User populateCurrentUser(HttpSession session){
+        String username = (String) session.getAttribute("currentUser");
+        return userService.getByUsername(username);
     }
 
     @GetMapping("/{id}")
@@ -69,10 +80,12 @@ public class BeerMvcController {
     }
 
     @GetMapping
-    public String showAllBeers(Model model) {
+    public String showAllBeers(@ModelAttribute("filterDto") FilterDto filterDto, Model model) {
         try {
-            List<Beer> beers = beerService.getAll();
-            model.addAttribute("beers", beers);
+            FilterOptions filterOptions =
+                    new FilterOptions(filterDto.getName(), filterDto.getMinAbv(), filterDto.getMaxAbv(),
+                            filterDto.getStyleId(), filterDto.getSortBy(), filterDto.getSortOrder());
+            model.addAttribute("beers", beerService.get(filterOptions));
             return "BeersView";
         } catch (EntityNotFoundException e) {
             model.addAttribute("error", e.getMessage());

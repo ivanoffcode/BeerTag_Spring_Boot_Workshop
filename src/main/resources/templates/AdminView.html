@@ -5,10 +5,11 @@
 <!-- The header and footer section are the same in each page -->
 <header th:replace="~{fragments/PageLayout.html:: header}"></header>
 <div class="body-content">
-    <!-- The main content of the page goes here -->
-    <h2 th:text="#{home.welcome}">Home Info</h2>
-    <h2 th:if="${isAuthenticated}" th:text="${session.currentUser} + '!'"></h2>
-    <img src="../static/images/favicon.ico" alt="Beer Icon" class="centered-icon" th:src="@{/images/favicon.ico}">
+  <!-- The main content of the page goes here -->
+  <h2 th:text="#{admin.welcome}">Home Info</h2>
+  <h2 th:if="${isAuthenticated}" th:text="${session.currentUser} + '!'"></h2>
+  <img src="../static/images/favicon.ico" alt="Beer Icon" class="centered-icon" th:src="@{/images/favicon.ico}">
+  <p>Here you can moderate the content</p>
 </div>
 <footer th:replace="~{fragments/PageLayout.html:: footer}"></footer>
 </body>

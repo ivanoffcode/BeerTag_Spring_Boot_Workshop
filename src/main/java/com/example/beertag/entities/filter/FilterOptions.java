@@ -11,6 +11,8 @@ public class FilterOptions {
     private Optional<String> sortBy;
     private Optional<String> sortOrder;
 
+    public FilterOptions(){
+    }
 
     public FilterOptions(String name,
                          Double minAbv,

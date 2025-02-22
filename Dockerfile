@@ -1,31 +1,11 @@
-# Stage 1: Build the application
-FROM eclipse-temurin:17-jdk as build
+FROM ubuntu:latest AS build
 
-WORKDIR /app
+RUN apt-get update
 
-# Copy Gradle wrapper and source files
-COPY gradlew gradlew.bat settings.gradle build.gradle /app/
-COPY gradle /app/gradle
-COPY src /app/src
+Run apt-get install openjdk-17-jdk -y
+COPY . .
+RUN ./gradlew bootJar --no daemon
 
-# Grant execute permissions to Gradle wrapper
-RUN chmod +x gradlew
-
-# Build the application
-RUN ./gradlew clean build -x test --no-daemon
-
-# Stage 2: Create a lightweight runtime image
-FROM eclipse-temurin:17-jre-focal
-
-WORKDIR /app
-
-# Copy the jar from the build stage
-COPY --from=build /app/build/libs/*.jar app.jar
-
-# Expose application port
+FROM openjdk:17-jdk-slim
 EXPOSE 8080
-
-# Run the application
-CMD ["java", "-jar", "app.jar"]
-
-
+COPY --from=build /app/build/libs/*.jar app.jar

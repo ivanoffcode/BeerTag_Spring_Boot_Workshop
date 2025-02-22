@@ -4,31 +4,35 @@
 <body>
 <!-- The header and footer section are the same in each page -->
 <header th:replace="~{fragments/PageLayout.html:: header}"></header>
-<div  id="searchBar">
-  <label for="beer-search-field"></label><input
-          onkeydown="onKeyDown()"
-          id="beer-search-field"
-          type="text"
-          placeholder="Search..."
-  />
-  <label for="style-select">Style:</label>
-  <select id="style-select">
-    <option value="">Any</option>
-    <option value="1">IPA</option>
-    <option value="2">EPA</option>
-    <option value="3">Weiss</option>
-    <option value="4">Stout</option>
+
+<form class="body-content" action="#" th:action="@{__${requestURI}__}" th:object="${filterDto}" method="get">
+  <input type="text" placeholder="BeerName" th:field="*{name}"/>
+  <input type="number" placeholder="BeerName" min="0" max="40" th:field="*{minAbv}"/>
+  <input type="number" placeholder="BeerName" min="0" max="40" th:field="*{maxAbv}"/>
+
+  <select th:field="*{styleId}">
+    <option value="">Any Style</option>
+    <option th:each="style: ${styles}"
+            th:value="${style.getId()}"
+            th:text="${style.getName()}">
+      BeerStyleOne
+    </option>
   </select>
-  <label for="country-select">Country:</label>
-  <select id="country-select">
-    <option value="">Any</option>
-    <option value="1">Bulgaria</option>
-    <option value="2">Germany</option>
-    <option value="3">Belgium</option>
-    <option value="4">England</option>
+
+  <select th:field="*{sortBy}">
+    <option value="">Default</option>
+    <option value="name">by name</option>
+    <option value="abv">by abv</option>
+    <option value="style">by Style</option>
   </select>
-  <button onclick="search()">Search!</button>
-</div>
+
+  <select th:field="*{sortOrder}">
+    <option value="">Ascending</option>
+    <option value="desc">Descending</option>
+  </select>
+  <input type="submit" value="Filter"> Filter</input>
+</form>
+
 <div>
   <!-- The main content of the page goes here -->
   <br>
@@ -37,7 +41,7 @@
   </div>
   <div th:unless="${beers.isEmpty()}">
     <h2 th:text="#{beers.title}">All Beers |</h2>
-    <h2><a href="./beer-new.html" th:href="@{/beers/new}">Create New Beer</a></h2>
+    <h2 th:if="${isAuthenticated}"><a href="./beer-new.html" th:href="@{/beers/new}">Create New Beer</a></h2>
   <table class="styled-table">
     <thead>
     <tr>
@@ -47,7 +51,7 @@
       <th th:text="#{beer.label.abv}">ABV</th>
       <th th:text="#{beer.label.style}">Style</th>
       <th th:text="#{beer.label.brewery}">Brewery</th>
-      <th th:text="#{beer.actions}">Actions</th>
+      <th th:if="${isAuthenticated}" th:text="#{beer.actions}">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -60,11 +64,11 @@
       <td th:text="${beer.abv}">ABV</td>
       <td th:text="${beer.style.name}">Style Name</td>
       <td th:text="${beer.brewery.name}">Brewery Name</td>
-      <td><form th:action="@{/wishlist/add}" method="post">
+      <td th:if="${isAuthenticated}"><form  th:action="@{/wishlist/add}" method="post">
         <input type="hidden" th:name="beerId" th:value="${beer.id}" />
         <button type="submit" class="btn-primary">Add to wish list</button>
       </form>
-        <form th:action="@{/wishlist/mark-as-drunk}" method="post">
+        <form  th:action="@{/wishlist/mark-as-drunk}" method="post">
           <input type="hidden" th:name="beerId" th:value="${beer.id}" />
           <button type="submit" class="btn-primary">Mark as drunk</button>
         </form>

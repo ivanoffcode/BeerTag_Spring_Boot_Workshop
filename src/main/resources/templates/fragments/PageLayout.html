@@ -11,12 +11,13 @@
   <div>
     <img src="../static/images/logo.png" alt="BeerTag Logo" class="header-image" th:src="@{/images/logo.png}">
     <h3 class="login">
-      <a href="#" th:unless="${isAuthenticated}" th:href="@{/auth/register}">Register</a>
+      <a href="#" th:if="${session.isAdmin}" th:href="@{/admin}" th:text="#{navigation.admin}">Admin</a>
+      <a href="#" th:unless="${isAuthenticated}" th:href="@{/auth/register}" th:text="#{navigation.register}">Register</a>
       | <a href="#" th:if="${isAuthenticated}"
-      th:href="@{/auth/logout}">Logout</a>
+      th:href="@{/auth/logout}" th:text="#{navigation.logout}">Logout</a>
 
       <a href="#" th:unless="${isAuthenticated}"
-      th:href="@{/auth/login}">Login</a>
+      th:href="@{/auth/login}" th:text="#{navigation.login}">Login</a>
     </h3>
     <h3>
       <a href="./HomeView.html" th:href="@{/}" th:text="#{navigation.home}"> Home</a>
